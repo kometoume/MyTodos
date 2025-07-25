@@ -2,12 +2,20 @@
 
 {
   const todos = [
-    {title: 'aaa', isCompleted: false},
-    {title: 'bbb', isCompleted: false},
+    {title: 'aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa ', isCompleted: false},
+    {title: 'bbb', isCompleted: true},
     {title: 'ccc', isCompleted: false},
+    {title: 'ddd', isCompleted: false},
   ];
 
   const renderTodo = (todo) => {
+    /*
+    - li
+      - label
+        - input
+        - span
+      - button
+    */
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.checked = todo.isCompleted;

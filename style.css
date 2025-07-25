@@ -37,6 +37,14 @@ li input:checked + span {
   text-decoration: line-through;
 }
 
+li input {
+  margin-right: 8px;
+}
+
+li label {
+  margin-right: 8px;
+}
+
 form {
   display: flex;
   gap: 8px;
