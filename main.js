@@ -4,8 +4,13 @@
   let todos;
 
   if (localStorage.getItem('todos') === null) {
-    todos = [];
+    todos = [
+      { id: Date.now() + 1, title: 'ゴミ出し', isCompleted: false },
+      { id: Date.now() + 2, title: '洗濯', isCompleted: false },
+      { id: Date.now() + 3, title: '皿洗い', isCompleted: false },
+    ];
   } else {
+    // ローカルストレージにデータがある場合は、それを読み込む
     todos = JSON.parse(localStorage.getItem('todos'));
   }
 
@@ -99,6 +104,14 @@
     document.querySelectorAll('#todos li').forEach((li) => {
       li.remove();
     });
+        if (todos.length === 0) {
+      todos = [
+        { id: Date.now() + 1, title: 'ゴミ出し', isCompleted: false },
+        { id: Date.now() + 2, title: '洗濯', isCompleted: false },
+        { id: Date.now() + 3, title: '皿洗い', isCompleted: false },
+      ];
+      saveTodos(); // 新しい初期リストをローカルストレージに保存
+    }
     renderTodos();
   });
 
