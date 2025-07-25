@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+body {
+  margin: 0;
+}
+.container {
+  width: 400px;
+  margin: 16px auto 0;
+  background: pink;
+}
+h1 {
+  margin: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
