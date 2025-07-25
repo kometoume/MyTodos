@@ -32,6 +32,11 @@ li {
   margin-top: 16px;
 }
 
+li input:checked + span {
+  color: #aaa;
+  text-decoration: line-through;
+}
+
 form {
   display: flex;
   gap: 8px;
