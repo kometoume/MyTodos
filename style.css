@@ -2,21 +2,46 @@
 
 body {
   margin: 0;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif; /* モダンなフォント */
+  background-color: #f4f7f6; /* 優しいグレーの背景 */
+  color: #333; /* 基本の文字色 */
 }
 
 .container {
-  width: 400px;
-  margin: 16px auto;
+  width: 90%; /* 幅を広げ、レスポンシブに対応 */
+  max-width: 500px; /* 最大幅で制御 */
+  margin: 20px auto; /* 中央寄せ */
+  padding: 25px;
+  background-color: #ffffff; /* 白いコンテナ背景 */
+  border-radius: 10px; /* 少し大きめの角丸 */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* 深めの影で立体感を出す */
 }
 
 h1 {
   margin: 0;
-  font-size: 20px;
-  border-bottom: 1px solid #ccc;
+  font-size: 28px; /* 見出しを大きく */
+  border-bottom: 1px solid #e0e0e0; /* 細い区切り線 */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 8px;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  color: #2c3e50; /* 濃い目の見出し色 */
+}
+
+h1 #purge {
+  background-color: #e74c3c; /* 赤系 */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease; /* ホバーアニメーション */
+}
+
+h1 #purge:hover {
+  background-color: #c0392b;
 }
 
 ul {
@@ -28,30 +53,106 @@ ul {
 li {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-top: 16px;
+  align-items: center; /* 中央揃え */
+  margin-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-li input:checked + span {
-  color: #aaa;
-  text-decoration: line-through;
-}
-
-li input {
-  margin-right: 8px;
+li:last-child {
+  border-bottom: none;
 }
 
 li label {
-  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* スペースを埋める */
+  cursor: pointer;
+}
+
+li input[type="checkbox"] {
+  margin-right: 12px; /* 少し広げる */
+  width: 20px; /* 大きくする */
+  height: 20px; /* 大きくする */
+  accent-color: #28a745; /* チェックボックスの色（緑） */
+  cursor: pointer;
+}
+
+li span {
+  word-break: break-all;
+  font-size: 18px; /* 少し大きく */
+  color: #34495e;
+}
+
+li.completed span {
+  color: #b0b0b0;
+  text-decoration: line-through;
+}
+
+li button {
+  background-color: transparent;
+  color: #95a5a6; /* 薄めのグレー */
+  border: none;
+  font-size: 22px; /* 少し大きく */
+  cursor: pointer;
+  transition: color 0.2s ease; /* ホバーアニメーション */
+  flex-shrink: 0; /* 縮まない */
+  margin-left: 10px; /* スペースを確保 */
+}
+
+li button:hover {
+  color: #e74c3c; /* ホバーで赤に */
 }
 
 form {
   display: flex;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 10px; /* 要素間の隙間 */
+  margin-top: 30px; /* 上の余白 */
 }
 
-form input {
+form input[type="text"] {
   flex: 1;
-  padding: 4px;
+  padding: 12px 15px; /* パディングを増やす */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+form input[type="text"]:focus {
+  outline: none;
+  border-color: #3498db; /* フォーカス時のボーダー色 */
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* 強めの影 */
+}
+
+form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #218838;
+}
+
+/* レスポンシブ対応の最小限の設定 */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  form {
+    flex-direction: column; /* スマホでは縦に並べる */
+  }
+  form input[type="text"],
+  form button {
+    width: 100%; /* 幅いっぱいに広げる */
+  }
 }
