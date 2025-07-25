@@ -33,6 +33,8 @@
           return;
       }
       li.remove();
+
+
     });
     const li = document.createElement('li');
     li.appendChild(label);
@@ -50,11 +52,13 @@
     e.preventDefault();
     const input = document.querySelector('#add-form input');
     const todo = {
+      id: Date.now(),
       title: input.value,
       isCompleted: false,
     };
     renderTodo(todo);
     todos.push(todo);
+    console.table(todos);
     localStorage.setItem('todos', JSON.stringify(todos));
     input.value = '';
     input.focus();
