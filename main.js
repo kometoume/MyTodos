@@ -70,6 +70,11 @@
   document.querySelector('#add-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const input = document.querySelector('#add-form input');
+    if (input.value.trim() === '') {
+        alert('タスクを入力してください'); // ユーザーにメッセージを表示
+        input.focus(); // 入力欄にフォーカスを戻す
+        return; // これ以降の処理を実行しない
+    }
     const todo = {
       id: Date.now(),
       title: input.value,
@@ -91,7 +96,10 @@
       return todo.isCompleted === false;
     });
     saveTodos();
-    renderTodos(); 
+    document.querySelectorAll('#todos li').forEach((li) => {
+      li.remove();
+    });
+    renderTodos();
   });
 
   renderTodos();
