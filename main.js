@@ -16,6 +16,12 @@
     const label = document.createElement('label');
     label.appendChild(input);
     label.appendChild(span);
+    const button = document.createElement('button');
+    button.textContent = 'x';
+    const li = document.createElement('li');
+    li.appendChild(label);
+    li.appendChild(button);
+    document.querySelector('#todos').appendChild(li);
   };
 
   const renderTodos = () => {
