@@ -26,6 +26,13 @@
     label.appendChild(span);
     const button = document.createElement('button');
     button.textContent = 'x';
+    button.addEventListener('click', () => {
+      // if (confirm('Sure?') === false) {
+      if (!confirm('Sure?')) {
+          return;
+      }
+      li.remove();
+    });
     const li = document.createElement('li');
     li.appendChild(label);
     li.appendChild(button);
