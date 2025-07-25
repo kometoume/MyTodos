@@ -79,10 +79,17 @@
   });
 
   document.querySelector('#purge').addEventListener('click', () => {
+    if (!confirm('Sure?')) {
+      return;
+    }
     todos = todos.filter((todo) => {
       return todo.isCompleted === false;
     });
     saveTodos();
+    document.querySelectorAll('#todos li').forEach((li) => {
+      li.remove();
+    });
+    renderTodos();
   });
 
   renderTodos();
