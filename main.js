@@ -20,6 +20,14 @@
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.checked = todo.isCompleted;
+    input.addEventListener('change', () => {
+      todos.forEach((item) => {
+        if (item.id === todo.id) {
+          item.isCompleted = !item.isCompleted;
+        }
+      });
+      localStorage.setItem('todos', JSON.stringify(todos));
+    });
     const span = document.createElement('span');
     span.textContent = todo.title;
     const label = document.createElement('label');
