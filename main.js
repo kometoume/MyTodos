@@ -28,6 +28,11 @@
       todos.forEach((item) => {
         if (item.id === todo.id) {
           item.isCompleted = !item.isCompleted;
+          if (item.isCompleted) {
+            li.classList.add('completed'); // 完了したら'completed'クラスを追加
+          } else {
+            li.classList.remove('completed'); // 未完了なら'completed'クラスを削除
+          }
         }
       });
       saveTodos();
@@ -38,10 +43,10 @@
     label.appendChild(input);
     label.appendChild(span);
     const button = document.createElement('button');
-    button.textContent = 'x';
+    button.textContent = '✕';
     button.addEventListener('click', () => {
-      // if (confirm('Sure?') === false) {
-      if (!confirm('Sure?')) {
+      // if (confirm('削除しますか？?') === false) {
+      if (!confirm('削除しますか？?')) {
           return;
       }
       li.remove();
@@ -79,17 +84,14 @@
   });
 
   document.querySelector('#purge').addEventListener('click', () => {
-    if (!confirm('Sure?')) {
+    if (!confirm('完了済みのタスクをすべて削除しますか？?')) {
       return;
     }
     todos = todos.filter((todo) => {
       return todo.isCompleted === false;
     });
     saveTodos();
-    document.querySelectorAll('#todos li').forEach((li) => {
-      li.remove();
-    });
-    renderTodos();
+    renderTodos(); 
   });
 
   renderTodos();
