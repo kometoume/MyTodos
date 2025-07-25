@@ -33,8 +33,10 @@
           return;
       }
       li.remove();
-
-
+      todos = todos.filter((item) => {
+        return item.id !== todo.id;
+      });
+      localStorage.setItem('todos', JSON.stringify(todos));
     });
     const li = document.createElement('li');
     li.appendChild(label);
