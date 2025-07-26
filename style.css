@@ -2,172 +2,172 @@
 
 /* 全体の基本設定 */
 body {
- margin: 0;
- font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* モダンなフォント */
- background-color: #f4f7f6; /* 優しいグレーの背景色 */
- color: #333; /* 基本の文字色 */
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
 }
 
-/* アプリケーションの主要なコンテナ */
+/* アプリケーションの主要コンテナ */
 .container {
- width: 80%; /* 幅を広げ、レスポンシブに対応 */
- max-width: 500px; /* 最大幅で制御 */
- margin: 20px auto; /* 上下20px、左右中央揃え */
- padding: 25px; /* 内側の余白 */
- background-color: #ffffff; /* コンテナの背景色を白に */
- border-radius: 10px; /* 角丸 */
- box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* 影をつけて立体感を出す */
+  width: 80%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* 立体感を出す影 */
 }
 
 /* 見出し (Todos) のスタイル */
 h1 {
- margin: 0;
- font-size: 28px; /* 見出しの文字サイズ */
- border-bottom: 1px solid #e0e0e0; /* 下に細い区切り線 */
- display: flex; /* Flexboxを使って要素を配置 */
- justify-content: space-between; /* 要素を両端に配置 */
- align-items: center; /* 要素を中央に配置 */
- padding-bottom: 15px; /* 下側のパディング */
- margin-bottom: 25px; /* 下側のマージン */
- color: #2c3e50; /* 見出しの色 */
+  margin: 0;
+  font-size: 28px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex; /* 要素を左右に配置 */
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  color: #2c3e50;
 }
 
 /* Purgeボタンのスタイル */
 h1 #purge {
- background-color: #3498db; /* 青系の背景色 */
- color: white; /* 文字色を白に */
- border: none; /* ボーダーなし */
- padding: 8px 15px; /* 内側の余白 */
- border-radius: 5px; /* 角丸 */
- cursor: pointer; /* マウスカーソルをポインターに */
- font-size: 14px; /* 文字サイズ */
- transition: background-color 0.3s ease; /* 背景色の変化を滑らかに */
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 h1 #purge:hover {
- background-color: #2980b9; /* ホバー時の背景色を濃い青に */
+  background-color: #2980b9;
 }
 
 /* リスト (ul) の基本設定 */
 ul {
- margin: 0;
- padding: 0;
- list-style: none; /* リストの点なし */
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* 各リストアイテム (li) のスタイル */
 li {
- display: flex; /* Flexboxを使って要素を配置 */
- justify-content: space-between; /* 要素を両端に配置 */
- align-items: center; /* 要素を中央に配置 */
- margin-top: 15px; /* 上側のマージン */
- padding-bottom: 15px; /* 下側のパディング */
- border-bottom: 1px solid #f0f0f0; /* 各アイテムの下に区切り線 */
+  display: flex; /* 要素を左右に配置 */
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 li:last-child {
- border-bottom: none; /* 最後のアイテムの下線はなし */
+  border-bottom: none; /* 最後のアイテムは下線なし */
 }
 
 /* チェックボックスとタスク名 (label) のスタイル */
 li label {
- display: flex; /* Flexboxを使って要素を配置 */
- align-items: center; /* 要素を中央に配置 */
- flex-grow: 1; /* 残りのスペースを埋める */
- cursor: pointer; /* マウスカーソルをポインターに */
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* 残りのスペースを埋める */
+  cursor: pointer;
 }
 
 /* チェックボックスのスタイル */
 li input[type="checkbox"] {
- margin-right: 12px; /* 右側のマージン */
- width: 20px; /* 幅 */
- height: 20px; /* 高さ */
- accent-color: #28a745; /* チェックボックスの色（緑） */
- cursor: pointer; /* マウスカーソルをポインターに */
+  margin-right: 12px;
+  width: 20px;
+  height: 20px;
+  accent-color: #28a745; /* チェックボックスの色 */
+  cursor: pointer;
 }
 
 /* タスク名 (span) のスタイル */
 li span {
- word-break: break-all; /* 長い単語でも途中で改行 */
- font-size: 18px; /* 文字サイズ */
- color: #34495e; /* 文字色 */
+  word-break: break-all; /* 長い単語の改行処理 */
+  font-size: 18px;
+  color: #34495e;
 }
 
 /* 完了済みタスクのスタイル */
 li.completed span {
- color: #b0b0b0; /* 文字色を薄いグレーに */
- text-decoration: line-through; /* 文字に横線（打ち消し線） */
+  color: #b0b0b0;
+  text-decoration: line-through; /* 打ち消し線 */
 }
 
 /* 削除ボタンのスタイル */
 li button {
- background-color: transparent; /* 背景色なし */
- color: #95a5a6; /* 文字色を薄いグレーに */
- border: none; /* ボーダーなし */
- font-size: 22px; /* 文字サイズ */
- cursor: pointer; /* マウスカーソルをポインターに */
- transition: color 0.2s ease; /* 文字色の変化を滑らかに */
- flex-shrink: 0; /* 縮まない */
- margin-left: 10px; /* 左側のマージン */
+  background-color: transparent;
+  color: #95a5a6;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  flex-shrink: 0; /* 縮まない設定 */
+  margin-left: 10px;
 }
 
 li button:hover {
- color: #e74c3c; /* ホバー時の文字色を赤に */
+  color: #e74c3c;
 }
 
 /* タスク追加フォームのスタイル */
 form {
- display: flex; /* Flexboxを使って要素を配置 */
- gap: 10px; /* 要素間の隙間 */
- margin-top: 30px; /* 上側のマージン */
+  display: flex; /* 要素を横並びに配置 */
+  gap: 10px;
+  margin-top: 30px;
 }
 
 /* テキスト入力フィールドのスタイル */
 form input[type="text"] {
- flex: 1; /* 残りのスペースを埋める */
- padding: 12px 15px; /* 内側の余白 */
- border: 1px solid #ccc; /* 細いボーダー */
- border-radius: 5px; /* 角丸 */
- font-size: 16px; /* 文字サイズ */
- box-sizing: border-box; /* パディングとボーダーを幅に含める */
+  flex: 1; /* 残りのスペースを埋める */
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 /* テキスト入力フィールドがフォーカスされたときのスタイル */
 form input[type="text"]:focus {
- outline: none; /* アウトラインなし */
- border-color: #3498db; /* ボーダー色を青に */
- box-shadow: 0 0 8px rgba(52, 152, 219, 0.3); /* 影をつける */
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
 }
 
 /* Addボタンのスタイル */
 form button {
- background-color: #28a745; /* 緑系の背景色 */
- color: white; /* 文字色を白に */
- border: none; /* ボーダーなし */
- padding: 12px 20px; /* 内側の余白 */
- border-radius: 5px; /* 角丸 */
- cursor: pointer; /* マウスカーソルをポインターに */
- font-size: 16px; /* 文字サイズ */
- transition: background-color 0.3s ease; /* 背景色の変化を滑らかに */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
 form button:hover {
- background-color: #218838; /* ホバー時の背景色を濃い緑に */
+  background-color: #218838;
 }
 
 /* スマートフォン向けのレスポンシブ対応 */
 @media (max-width: 480px) {
- .container {
-  padding: 15px; /* 小さい画面では内側の余白を減らす */
- }
- h1 {
-  font-size: 24px; /* 小さい画面では見出しを小さく */
- }
- form {
-  flex-direction: column; /* フォームの要素を縦に並べる */
- }
- form input[type="text"],
- form button {
-  width: 100%; /* 幅をいっぱいに広げる */
- }
+  .container {
+    padding: 15px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  form {
+    flex-direction: column; /* 要素を縦並びに変更 */
+  }
+  form input[type="text"],
+  form button {
+    width: 100%;
+  }
 }
