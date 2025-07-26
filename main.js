@@ -104,7 +104,7 @@
   });
 
   document.querySelector("#purge").addEventListener("click", () => {
-    if (!confirm("完了済みのタスクをすべて削除しますか？?")) {
+    if (!confirm("完了済みのタスクをすべて削除しますか？")) {
       return;
     }
     todos = todos.filter((todo) => {
