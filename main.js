@@ -50,8 +50,8 @@
     const button = document.createElement("button");
     button.textContent = "✕";
     button.addEventListener("click", () => {
-      // if (confirm('削除しますか？?') === false) {
-      if (!confirm("削除しますか？?")) {
+      // if (confirm('削除しますか？') === false) {
+      if (!confirm("削除しますか？")) {
         return;
       }
       li.remove();
