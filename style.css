@@ -1,175 +1,373 @@
 @charset "utf-8";
 
-/* ====================
-  基本設定
-==================== */
+/* 基本設定 */
 body {
-  margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f4f7f6;
-  color: #333;
+    margin: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
 }
 
-/* ====================
-  コンテナ
-==================== */
+/* 認証セクション */
+#auth-section {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-sizing: border-box;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#auth-section h2 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+#auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#auth-form input[type="email"],
+#auth-form input[type="password"] {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #cdd4da;
+    border-radius: 8px;
+    font-size: 1.1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#auth-form input[type="email"]:focus,
+#auth-form input[type="password"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+#auth-form button,
+#anonymous-login-button {
+    width: 100%;
+    padding: 14px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#login-button {
+    background-color: #007bff;
+}
+
+#login-button:hover {
+    background-color: #0056b3;
+}
+
+#signup-button {
+    background-color: #28a745;
+}
+
+#signup-button:hover {
+    background-color: #218838;
+}
+
+#anonymous-login-button {
+    background-color: #6c757d;
+    margin-top: 15px;
+}
+
+#anonymous-login-button:hover {
+    background-color: #5a6268;
+}
+
+/* カスタムアラートのスタイル */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.custom-alert-content {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    transform: scale(0.95);
+    opacity: 0;
+    animation: fadeInScale 0.3s forwards cubic-bezier(0.2, 0.8, 0.2, 1.0);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#custom-alert-message {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 25px;
+    display: block;
+    font-weight: 500;
+}
+
+#custom-alert-close {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+#custom-alert-close:hover {
+    background-color: #0056b3;
+}
+
+/* コンテナ */
 .container {
-  width: 80%;
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 25px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* ====================
-  見出しとPurgeボタン
-==================== */
-h1 {
-  margin: 0;
-  font-size: 28px;
-  border-bottom: 1px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 15px;
-  margin-bottom: 25px;
-  color: #2c3e50;
+/* ヘッダーとユーザー情報 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
 }
 
-h1 #purge {
-  background-color: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+    color: #2c3e50;
 }
 
-h1 #purge:hover {
-  background-color: #2980b9;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9em;
+    color: #555;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
-/* ====================
-  TODOリスト
-==================== */
+#user-email {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+/* ログアウトボタン */
+#logout-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+    display: block;
+    position: static;
+    top: auto;
+    right: auto;
+}
+
+#logout-button:hover {
+    background-color: #c82333;
+}
+
+/* 完了済み削除ボタン */
+#purge {
+    background-color: #ffc107;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+    font-weight: 500;
+}
+
+#purge:hover {
+    background-color: #e0a800;
+}
+
+/* TODOリスト */
 ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 li:last-child {
-  border-bottom: none; /* 最後の項目は下線を消す */
+    border-bottom: none;
 }
 
 li label {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    cursor: pointer;
 }
 
 li input[type="checkbox"] {
-  margin-right: 12px;
-  width: 20px;
-  height: 20px;
-  accent-color: #28a745;
-  cursor: pointer;
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    accent-color: #28a745;
+    cursor: pointer;
 }
 
 li span {
-  word-break: break-all; /* 長い単語でも途中で改行させる */
-  font-size: 18px;
-  color: #34495e;
+    word-break: break-all;
+    font-size: 18px;
+    color: #34495e;
 }
 
 li.completed span {
-  color: #b0b0b0;
-  text-decoration: line-through;
+    color: #b0b0b0;
+    text-decoration: line-through;
 }
 
 li button {
-  background-color: transparent;
-  color: #95a5a6;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  flex-shrink: 0; /* ボタンが縮まないようにする */
-  margin-left: 10px;
+    background-color: transparent;
+    color: #95a5a6;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 li button:hover {
-  color: #e74c3c;
+    color: #e74c3c;
 }
 
-/* ====================
-  タスク追加フォーム
-==================== */
+/* タスク追加フォーム */
 form {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
 }
 
 form input[type="text"] {
-  flex: 1;
-  padding: 12px 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 form input[type="text"]:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
 }
 
 form button {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
-  background-color: #218838;
+    background-color: #218838;
 }
 
-/* ====================
-  レスポンシブ対応
-==================== */
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-  form {
-    flex-direction: column; /* スマホでは縦並びにする */
-  }
-  form input[type="text"],
-  form button {
-    width: 100%;
-  }
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .user-info {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    #user-email {
+        max-width: none;
+    }
+    .container {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 24px;
+    }
+    form {
+        flex-direction: column;
+    }
+    form input[type="text"],
+    form button {
+        width: 100%;
+    }
 }

@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>毎日掃除リスト</title>
-  <link rel="stylesheet" href="style.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>毎日掃除リスト</title>
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>
-      毎日掃除リスト
-      <button id="purge">削除</button>
-    </h1>
+  <div id="auth-section" style="display: none;">
+    <h2>ログインまたは新規登録</h2>
+    <form id="auth-form">
+      <input type="email" id="email" placeholder="メールアドレス" required>
+      <input type="password" id="password" placeholder="パスワード" required>
+      <button type="submit" id="login-button">ログイン</button>
+      <button type="button" id="signup-button">新規登録</button>
+    </form>
+    <button id="anonymous-login-button">ゲストでログイン</button>
+  </div>
+
+  <div class="container" style="display: none;">
+    <div class="header"> <h1>毎日掃除リスト</h1>
+        <div class="user-info"> <span id="user-email"></span> <button id="logout-button">ログアウト</button> <button id="purge">削除</button> </div>
+    </div>
     <ul id="todos">
-      <!-- <li>
-        <label>
-          <input type="checkbox">
-          <span>
-            aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa 
-          </span>
-        </label>
-        <button>x</button>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox">
-          <span>
-            bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb 
-          </span>
-        </label>
-        <button>x</button>
-      </li> -->
     </ul>
     <form id="add-form">
-        <input type="text" id="new-todo-title" placeholder="新しいタスクを入力してください">
+      <input type="text" id="new-todo-title" placeholder="新しいタスクを入力してください">
       <button>追加</button>
     </form>
   </div>
-  <script type="module" src="main.js"></script>
+
+    <div id="custom-alert" class="custom-alert" style="display: none;">
+    <div class="custom-alert-content">
+        <span id="custom-alert-message"></span>
+        <button id="custom-alert-close">OK</button>
+    </div>
+</div>
+ <script type="module" src="main.js"></script>
 </body>
 </html>
