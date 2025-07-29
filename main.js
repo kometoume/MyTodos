@@ -1,7 +1,19 @@
 "use strict";
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  doc, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  query, 
+  orderBy, 
+  serverTimestamp, 
+  setDoc,
+  onSnapshot // ★ onSnapshot を追加
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getAuth,
   signInAnonymously,
@@ -44,6 +56,7 @@ import {
 
   let todos = [];
   let todosColRef;
+  let unsubscribeTodos = null; // リアルタイムリスナーを解除するための変数
 
   const showCustomAlert = (message) => {
     customAlertMessage.textContent = message;
@@ -148,13 +161,14 @@ import {
       } catch (error) {
         console.error("ユーザー情報の保存中にエラーが発生しました:", error);
       }
-    
+        
       authSection.style.display = 'none';
       logoutButton.style.display = 'block';
       todoContainer.style.display = 'block';
       userEmailSpan.textContent = user.email || 'ゲストユーザー';
 
-      await renderTodos();
+      // ログイン時にリアルタイムリスナーを設定
+      setupRealtimeTodosListener();
     } else {
       console.log("Logged out");
       authSection.style.display = 'block';
@@ -162,6 +176,11 @@ import {
       todoContainer.style.display = 'none';
       userEmailSpan.textContent = '';
 
+      // ログアウト時にリアルタイムリスナーを解除
+      if (unsubscribeTodos) {
+        unsubscribeTodos();
+        unsubscribeTodos = null;
+      }
       todosColRef = null;
       todos = [];
       todosUl.innerHTML = "";
@@ -184,18 +203,6 @@ import {
         await updateDoc(todoDocRef, {
           isCompleted: newCompletedStatus
         });
-
-        todos.forEach((item) => {
-          if (item.id === todo.id) {
-            item.isCompleted = newCompletedStatus;
-          }
-        });
-
-        if (newCompletedStatus) {
-          li.classList.add("completed");
-        } else {
-          li.classList.remove("completed");
-        }
       } catch (error) {
         console.error("Todoの更新中にエラーが発生しました: ", error);
         showCustomAlert("タスクの更新に失敗しました。");
@@ -215,7 +222,7 @@ import {
       if (!confirm("削除しますか？")) {
         return;
       }
-      
+        
       if (!todosColRef) {
         showCustomAlert("ログインしていません。");
         return;
@@ -224,14 +231,6 @@ import {
 
       try {
         await deleteDoc(todoDocRef);
-        li.remove();
-
-        todos = todos.filter((item) => {
-          return item.id !== todo.id;
-        });
-        if (todos.length === 0) {
-          await renderTodos();
-        }
       } catch (error) {
         console.error("Todoの削除中にエラーが発生しました: ", error);
         showCustomAlert("タスクの削除に失敗しました。");
@@ -239,6 +238,7 @@ import {
     });
 
     const li = document.createElement("li");
+    li.dataset.id = todo.id;
     if (todo.isCompleted) {
       li.classList.add("completed");
     }
@@ -246,6 +246,7 @@ import {
     li.appendChild(button);
     todosUl.appendChild(li);
   };
+
 
   const addDefaultTodos = async () => {
     if (!todosColRef) {
@@ -259,44 +260,46 @@ import {
       { title: "皿洗い", isCompleted: false },
     ];
     for (const item of defaultTodos) {
-      const newDocRef = await addDoc(todosColRef, {
+      await addDoc(todosColRef, {
         ...item,
         createdAt: serverTimestamp()
       });
-      todos.push({ id: newDocRef.id, ...item });
     }
   };
 
-  const renderTodos = async () => {
-    todosUl.innerHTML = "";
 
-    if (!todosColRef) {
-      console.log("todosColRefが設定されていないため、Todoリストを読み込みません。");
-      return;
-    }
-
-    try {
-      const q = query(todosColRef, orderBy('createdAt', 'asc'));
-      const querySnapshot = await getDocs(q);
-
-      todos = [];
-      
-      querySnapshot.forEach((doc) => {
-        todos.push({ id: doc.id, ...doc.data() });
-      });
-
-      if (todos.length === 0) {
-        await addDefaultTodos();
-        await renderTodos();
-      } else {
-        todos.forEach((todo) => {
-          renderTodo(todo);
-        });
+  const setupRealtimeTodosListener = () => {
+      if (unsubscribeTodos) {
+          unsubscribeTodos();
       }
-    } catch (error) {
-      console.error("Todoリストの読み込み中にエラーが発生しました: ", error);
-      showCustomAlert("タスクの読み込みに失敗しました。ネットワーク接続を確認してください。");
-    }
+
+      if (!todosColRef) {
+          console.log("todosColRefが設定されていないため、Todoリストのリアルタイム同期を開始しません。");
+          return;
+      }
+
+      const q = query(todosColRef, orderBy('createdAt', 'asc'));
+
+
+      unsubscribeTodos = onSnapshot(q, async (querySnapshot) => {
+          todosUl.innerHTML = "";
+
+          todos = [];
+          querySnapshot.forEach((doc) => {
+              todos.push({ id: doc.id, ...doc.data() });
+          });
+
+          if (todos.length === 0 && !querySnapshot.metadata.hasPendingWrites) {
+              await addDefaultTodos();
+          } else {
+              todos.forEach((todo) => {
+                  renderTodo(todo);
+              });
+          }
+      }, (error) => {
+          console.error("Todoリストのリアルタイム更新中にエラーが発生しました: ", error);
+          showCustomAlert("タスクの読み込み中にエラーが発生しました。ネットワーク接続を確認してください。");
+      });
   };
 
   addForm.addEventListener("submit", async (e) => {
@@ -320,10 +323,7 @@ import {
     };
 
     try {
-      const docRef = await addDoc(todosColRef, newTodo);
-
-      todos.push({ id: docRef.id, ...newTodo });
-      renderTodo({ id: docRef.id, ...newTodo });
+      await addDoc(todosColRef, newTodo);
 
       input.value = "";
       input.focus();
@@ -351,11 +351,6 @@ import {
         await deleteDoc(todoDocRef);
       }
 
-      todos = todos.filter((todo) => {
-        return todo.isCompleted === false;
-      });
-
-      renderTodos();
 
     } catch (error) {
       console.error("完了済みTodoの一括削除中にエラーが発生しました: ", error);
