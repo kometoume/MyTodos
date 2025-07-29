@@ -12,7 +12,7 @@ import {
   orderBy, 
   serverTimestamp, 
   setDoc,
-  onSnapshot // ★ onSnapshot を追加
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getAuth,
