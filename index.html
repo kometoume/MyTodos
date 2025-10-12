@@ -1,41 +1,214 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>毎日掃除リスト</title>
- <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="auth-section" style="display: none;">
-    <h2>ログインまたは新規登録</h2>
-    <form id="auth-form">
-      <input type="email" id="email" placeholder="メールアドレス" required>
-      <input type="password" id="password" placeholder="パスワード" required>
-      <button type="submit" id="login-button">ログイン</button>
-      <button type="button" id="signup-button">新規登録</button>
-    </form>
-    <button id="anonymous-login-button">ゲストでログイン</button>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Tasks</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "Noto Sans JP", "sans-serif"],
+            },
+            colors: {
+              primary: "#0D9488",
+              "primary-dark": "#0F766E",
+              "primary-light": "#14B8A6",
+              "accent-warning": "#F59E0B",
+              danger: "#DC2626",
+              background: "#F9FAFB",
+              surface: "#FFFFFF",
+              "border-light": "#E5E7EB",
+              "border-dark": "#D1D5DB",
+              "text-header": "#1F2937",
+              "text-default": "#374151",
+              "text-muted": "#6B7280",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .custom-checkbox input[type="checkbox"] {
+        display: none;
+      }
 
-  <div class="container" style="display: none;">
-    <div class="header"> <h1>毎日掃除リスト</h1>
-        <div class="user-info"> <span id="user-email"></span> <button id="logout-button">ログアウト</button> <button id="purge">削除</button> </div>
-    </div>
-    <ul id="todos">
-    </ul>
-    <form id="add-form">
-      <input type="text" id="new-todo-title" placeholder="新しいタスクを入力してください">
-      <button>追加</button>
-    </form>
-  </div>
+      .custom-checkbox .task-indicator {
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        border: 2px solid #d1d5db;
+        margin-right: 1rem;
+        flex-shrink: 0;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
 
-    <div id="custom-alert" class="custom-alert" style="display: none;">
-    <div class="custom-alert-content">
-        <span id="custom-alert-message"></span>
-        <button id="custom-alert-close">OK</button>
+      .custom-checkbox input[type="checkbox"]:checked + .task-indicator {
+        border: 2px solid #0d9488;
+        background-color: #0d9488;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
+
+      .todo-item.completed {
+        background-color: #f3f4f6;
+      }
+      .todo-item.completed .task-text {
+        color: #9ca3af;
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background min-h-screen flex flex-col items-center justify-center p-4 text-text-default font-sans"
+  >
+    <div
+      id="auth-section"
+      class="bg-surface p-8 rounded-2xl shadow-xl w-full max-w-sm"
+      style="display: none"
+    >
+      <h2 class="text-3xl font-bold text-text-header text-center mb-7">
+        ログインまたは新規登録
+      </h2>
+      <form id="auth-form" class="space-y-5">
+        <div>
+          <input
+            type="email"
+            id="email"
+            placeholder="メールアドレス"
+            required
+            class="w-full p-3 border border-border-dark rounded-lg focus:ring-primary focus:border-primary-light transition duration-200 text-base text-text-default placeholder-text-muted"
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            id="password"
+            placeholder="パスワード"
+            required
+            class="w-full p-3 border border-border-dark rounded-lg focus:ring-primary focus:border-primary-light transition duration-200 text-base text-text-default placeholder-text-muted"
+          />
+        </div>
+        <div class="space-y-3 pt-3">
+          <button
+            type="submit"
+            id="login-button"
+            class="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition duration-200 shadow-md"
+          >
+            <i class="fas fa-sign-in-alt mr-2"></i>ログイン
+          </button>
+          <button
+            type="button"
+            id="signup-button"
+            class="w-full py-3 bg-primary-light text-white font-semibold rounded-lg hover:bg-primary transition duration-200 shadow-md"
+          >
+            <i class="fas fa-user-plus mr-2"></i>新規登録
+          </button>
+        </div>
+      </form>
+      <button
+        id="anonymous-login-button"
+        class="mt-6 w-full py-3 bg-gray-400 text-white font-semibold rounded-lg hover:bg-gray-500 transition duration-200 shadow-md"
+      >
+        <i class="fas fa-user-secret mr-2"></i>ゲストでログイン
+      </button>
     </div>
-</div>
- <script type="module" src="main.js"></script>
-</body>
+
+    <div
+      class="container bg-surface p-6 md:p-10 shadow-xl w-full max-w-xl"
+      style="display: none"
+    >
+      <div class="header mb-6 pb-4 border-border-light flex flex-col items-end">
+        <h1
+          class="text-3xl font-extrabold text-primary flex items-center mb-3 w-full justify-center sm:justify-center"
+        >
+          <span class="mr-3 text-primary"
+            ><i class="fas fa-clipboard-list"></i
+          ></span>
+          Daily Tasks
+        </h1>
+        <div
+          class="user-info flex items-center gap-2 text-sm flex-wrap justify-end w-full sm:w-auto mt-2"
+        >
+          <span
+            id="user-email"
+            class="font-medium text-text-muted truncate max-w-[100px] sm:max-w-xs text-xs sm:text-sm"
+          ></span>
+          <button
+            id="purge"
+            class="bg-accent-warning text-white px-3 py-1.5 rounded-full hover:bg-amber-600 transition duration-200 font-semibold text-xs shadow-sm flex-shrink-0"
+          >
+            <i class="fas fa-eraser mr-1"></i>完了済みを削除
+          </button>
+          <button
+            id="logout-button"
+            class="bg-danger text-white px-3 py-1.5 rounded-full hover:bg-red-700 transition duration-200 font-semibold text-xs shadow-sm flex-shrink-0"
+          >
+            <i class="fas fa-sign-out-alt mr-1"></i>ログアウト
+          </button>
+        </div>
+      </div>
+
+      <ul
+        id="todos"
+        class="divide-y divide-primary divide-dashed border-t border-b border-primary border-dashed"
+      ></ul>
+
+      <form
+        id="add-form"
+        class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:gap-3 mt-6 pt-6 border-border-light"
+      >
+        <input
+          type="text"
+          id="new-todo-title"
+          placeholder="新しいタスクを入力してください"
+          class="w-full sm:flex-1 p-3 border border-border-dark rounded-lg focus:ring-primary focus:border-primary-light transition duration-200 text-base text-text-default placeholder-text-muted min-w-0"
+        />
+        <button
+          type="submit"
+          class="w-full sm:w-auto py-3 bg-primary text-white sm:px-5 rounded-lg hover:bg-primary-dark transition duration-200 font-semibold shadow-md flex-shrink-0"
+        >
+          <i class="fas fa-plus mr-2"></i>追加
+        </button>
+      </form>
+    </div>
+
+    <div
+      id="custom-alert"
+      class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 backdrop-blur-sm"
+      style="display: none"
+    >
+      <div
+        class="custom-alert-content bg-surface p-8 rounded-2xl shadow-2xl text-center w-full max-w-sm transform transition duration-300 ease-out opacity-0 scale-90"
+      >
+        <span
+          id="custom-alert-message"
+          class="text-xl font-medium text-text-header block mb-6"
+        ></span>
+        <button
+          id="custom-alert-close"
+          class="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark transition duration-200 shadow-md"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+  </body>
 </html>

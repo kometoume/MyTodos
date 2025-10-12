@@ -63,6 +63,9 @@ import {
   const showCustomAlert = (message) => {
     customAlertMessage.textContent = message;
     customAlert.style.display = "flex";
+    const content = customAlert.querySelector(".custom-alert-content");
+    content.classList.remove("opacity-0", "scale-90");
+    content.classList.add("opacity-100", "scale-100");
   };
 
   customAlertCloseButton.addEventListener("click", () => {
@@ -176,7 +179,6 @@ import {
       todoContainer.style.display = "block";
       userEmailSpan.textContent = user.email || "ゲストユーザー";
 
-      // ログイン時にリアルタイムリスナーを設定
       setupRealtimeTodosListener();
     } else {
       console.log("Logged out");
@@ -185,7 +187,6 @@ import {
       todoContainer.style.display = "none";
       userEmailSpan.textContent = "";
 
-      // ログアウト時にリアルタイムリスナーを解除
       if (unsubscribeTodos) {
         unsubscribeTodos();
         unsubscribeTodos = null;
@@ -197,38 +198,38 @@ import {
   });
 
   const renderTodo = (todo) => {
+    // チェックボックス
     const input = document.createElement("input");
     input.type = "checkbox";
     input.checked = todo.isCompleted;
-    input.addEventListener("change", async () => {
-      if (!todosColRef) {
-        showCustomAlert("ログインしていません。");
-        return;
-      }
-      const todoDocRef = doc(db, todosColRef.path, todo.id);
-      const newCompletedStatus = !todo.isCompleted;
 
-      try {
-        await updateDoc(todoDocRef, {
-          isCompleted: newCompletedStatus,
-        });
-      } catch (error) {
-        console.error("Todoの更新中にエラーが発生しました: ", error);
-        showCustomAlert("タスクの更新に失敗しました。");
-      }
-    });
+    // チェックマーク
+    const indicator = document.createElement("span");
+    indicator.className = "task-indicator"; // HTMLのCSSでスタイル定義
+    if (todo.isCompleted) {
+      indicator.innerHTML = '<i class="fas fa-check"></i>';
+    }
 
+    // テキスト
     const span = document.createElement("span");
     span.textContent = todo.title;
+    span.className = "task-text text-lg break-all flex-grow";
 
+    // ラベル
     const label = document.createElement("label");
+    label.className =
+      "custom-checkbox flex items-center flex-grow cursor-pointer p-2";
     label.appendChild(input);
+    label.appendChild(indicator);
     label.appendChild(span);
 
+    // 削除ボタン
     const button = document.createElement("button");
-    button.textContent = "✕";
+    button.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    button.className =
+      "text-xl text-text-muted hover:text-danger ml-4 transition duration-200 flex-shrink-0 p-2 rounded";
     button.addEventListener("click", async () => {
-      if (!confirm("削除しますか？")) {
+      if (!confirm("本当に削除しますか？")) {
         return;
       }
 
@@ -246,14 +247,51 @@ import {
       }
     });
 
+    // 6. リストアイテム
     const li = document.createElement("li");
     li.dataset.id = todo.id;
+    li.classList.add(
+      "todo-item",
+      "flex",
+      "justify-between",
+      "items-center",
+      "py-2",
+      "group",
+      "transition",
+      "duration-200"
+    );
+
     if (todo.isCompleted) {
-      li.classList.add("completed");
+      li.classList.add("completed", "opacity-80");
+      button.classList.remove("hover:text-danger");
+      button.classList.add("hover:text-red-400");
+    } else {
+      li.classList.add("hover:bg-gray-100");
     }
+
     li.appendChild(label);
     li.appendChild(button);
     todosUl.appendChild(li);
+
+    label.addEventListener("click", async (e) => {
+      if (e.target === input) return;
+      const newCompletedStatus = !input.checked;
+
+      if (!todosColRef) {
+        showCustomAlert("ログインしていません。");
+        return;
+      }
+      const todoDocRef = doc(db, todosColRef.path, todo.id);
+
+      try {
+        await updateDoc(todoDocRef, {
+          isCompleted: newCompletedStatus,
+        });
+      } catch (error) {
+        console.error("Todoの更新中にエラーが発生しました: ", error);
+        showCustomAlert("タスクの更新に失敗しました。");
+      }
+    });
   };
 
   const addDefaultTodos = async () => {
