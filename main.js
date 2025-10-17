@@ -205,7 +205,7 @@ import {
 
     // チェックマーク
     const indicator = document.createElement("span");
-    indicator.className = "task-indicator"; // HTMLのCSSでスタイル定義
+    indicator.className = "task-indicator";
     if (todo.isCompleted) {
       indicator.innerHTML = '<i class="fas fa-check"></i>';
     }
