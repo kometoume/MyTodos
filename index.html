@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Daily Tasks</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Nikukyu&display=swap"
       rel="stylesheet"
     />
     <link
@@ -18,20 +18,22 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ["Inter", "Noto Sans JP", "sans-serif"],
+              // 「Yusei Magic」を手書き風のメインフォントに、「Nikukyu」を代替に設定
+              sans: ["Yusei Magic", "Nikukyu", "cursive", "sans-serif"],
             },
             colors: {
-              primary: "#0D9488",
-              "primary-dark": "#0F766E",
-              "primary-light": "#14B8A6",
-              "accent-warning": "#F59E0B",
-              danger: "#DC2626",
-              background: "#F9FAFB",
-              surface: "#FFFFFF",
-              "border-light": "#E5E7EB",
-              "border-dark": "#D1D5DB",
-              "text-header": "#1F2937",
-              "text-default": "#374151",
+              // 色を紙とインクのようなレトロなトーンに変更
+              primary: "#313638", // インクの色（濃いグレー/黒に近い）
+              "primary-dark": "#1F2324",
+              "primary-light": "#5D6D70",
+              "accent-warning": "#F59E0B", // そのまま
+              danger: "#A83333", // 少し落ち着いた赤
+              background: "#F5F5DC", // ベージュ（紙の色）
+              surface: "#FFFFF0", // クリーム色（ノートの紙の色）
+              "border-light": "#D4AC0D", // 罫線の色（茶色っぽい）
+              "border-dark": "#A08432",
+              "text-header": "#313638",
+              "text-default": "#313638",
               "text-muted": "#6B7280",
             },
           },
@@ -39,6 +41,30 @@
       };
     </script>
     <style>
+      /* 全体の背景に縦のライン（罫線）を追加 */
+      .paper-background {
+        background-color: #fffff0; /* surface色 */
+        /* 薄い赤い縦線 */
+        background-image: linear-gradient(
+            to right,
+            #f0c7c7 1px,
+            transparent 1px
+          ),
+          /* 薄いグレーの横線（ノートの横罫線っぽい）*/
+            repeating-linear-gradient(
+              to bottom,
+              transparent,
+              transparent 24px,
+              #d1d5db 25px,
+              #d1d5db 26px
+            );
+        background-size: 100% 100%, 100% 26px; /* 縦線は全体に、横線は26pxごとに */
+        background-position: 50px 0, 0 0; /* 縦線を左から50pxの位置に配置 */
+        padding-left: 60px; /* 罫線とテキストのスペース */
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* 影で紙の立体感を出す */
+      }
+
+      /* チェックボックスを四角いノートのチェックリスト風に */
       .custom-checkbox input[type="checkbox"] {
         display: none;
       }
@@ -47,30 +73,55 @@
         display: inline-block;
         width: 1.25rem;
         height: 1.25rem;
-        border-radius: 50%;
-        border: 2px solid #d1d5db;
+        /* 丸から四角に変更 */
+        border-radius: 4px;
+        border: 2px solid #313638; /* インクの色 */
         margin-right: 1rem;
         flex-shrink: 0;
         transition: all 0.2s;
         cursor: pointer;
+        position: relative;
+        box-sizing: border-box;
       }
 
+      /* チェックが入ったらXマークを表示 */
       .custom-checkbox input[type="checkbox"]:checked + .task-indicator {
-        border: 2px solid #0d9488;
-        background-color: #0d9488;
-        color: white;
+        border: 2px solid #313638;
+        background-color: transparent; /* 背景はそのまま */
+        color: #313638;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 0.75rem;
       }
 
+      .todo-item {
+        padding: 0.75rem 0; /* 項目ごとの上下の余白調整 */
+        transition: background-color 0.3s;
+      }
+
       .todo-item.completed {
-        background-color: #f3f4f6;
+        background-color: transparent; /* 完了しても背景色は変えない */
       }
       .todo-item.completed .task-text {
-        color: #9ca3af;
-        text-decoration: line-through;
+        color: #6b7280; /* テキスト色は少し薄く */
+        /* 打ち消し線は点線にする */
+        text-decoration: none;
+        position: relative;
+      }
+      .todo-item.completed .task-text::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        border-top: 2px solid #a83333; /* 破線の打ち消し線 */
+        transform: translateY(-50%);
+      }
+
+      /* タスクリストの枠線を点線から実線に変更 */
+      #todos {
+        border-style: solid;
       }
     </style>
   </head>
